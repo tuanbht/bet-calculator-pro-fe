@@ -1,0 +1,40 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.container {
+  display: flex;
+  min-height: 700px;
+  background: linear-gradient(180deg, rgba(255, 146, 19, 0.25) 0%, rgba(255, 146, 19, 0) 158.8%);
+
+  @include media-breakpoint-down(md) {
+    .content_section {
+      margin-top: 32px;
+      order: 2
+    }
+
+    .image_section {
+      order: 1
+    }
+  };
+
+  .content_section {
+    .group_link {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 50px;
+
+      @include media-breakpoint-down(md) {
+        margin-top: unset;
+      }
+
+      .btn_link {
+        margin: 8px;
+      }
+    }
+  }
+
+   .image_section {
+    .not_found_image {
+      width: 100%;
+    }
+  }
+}
