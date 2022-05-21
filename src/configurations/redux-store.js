@@ -15,7 +15,7 @@ const history = createBrowserHistory();
 const persistConfig = {
   key: `${process.env.REACT_APP_WEBAPP_NAME}`,
   storage,
-  whitelist: ['auth'],
+  whitelist: ['token'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -24,7 +24,7 @@ const axiosMiddlewareConfig = {
   interceptors: {
     request: [
       ({ getState }, request) => {
-        const token = get(getState(), 'auth.token');
+        const token = get(getState(), 'token');
         if (token) {
           merge(request, { headers: { Authorization: `Bearer ${token}` } });
         }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Row, Spinner, Table } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import times from 'lodash/times';
@@ -10,8 +10,10 @@ import ReactPaginate from 'react-paginate';
 import styles from './index.module.scss';
 
 import AxiosClient from 'configurations/api-client';
+import authActions from 'actions/auth-actions';
 
 const MatchesAndScores = () => {
+  const dispatch = useDispatch();
   const sports = useSelector((state) => state.sports);
 
   const [sportId, setSportId] = useState();
@@ -40,6 +42,11 @@ const MatchesAndScores = () => {
         setTotalPages(get(response.data, 'pagination.totalPages', 0));
         setMaxScoreIndex(response.data.maxScoreIndex);
         setMatches(response.data.matches);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          dispatch(authActions.signOut());
+        }
       })
       .finally(() => {
         setLoading(false);

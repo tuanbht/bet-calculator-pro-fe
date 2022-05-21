@@ -11,3 +11,15 @@ export const get = (action, url, params = {}, configs = {}) =>
       },
     },
   }))();
+
+export const post = (action, url, data = {}, configs = {}) =>
+  createAction(action, () => ({
+    payload: {
+      request: {
+        method: 'post',
+        url,
+        data,
+        ...configs,
+      },
+    },
+  }))();

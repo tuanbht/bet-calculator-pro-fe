@@ -1,13 +1,14 @@
 import get from 'lodash/get';
 import { createReducer } from '@reduxjs/toolkit';
 
-import { ActionSuccessType, SIGN_IN } from 'constants/redux-actions';
+import { ActionFailureType, ActionSuccessType, GET_SPORTS, SIGN_IN, SIGN_OUT } from 'constants/redux-actions';
 
-// FIXME should be empty
-const initState = 'token';
+const initState = '';
 
 const tokenReducer = createReducer(initState, {
-  [ActionSuccessType(SIGN_IN)]: (_, action) => get(action, 'payload.data', initState),
+  [ActionSuccessType(SIGN_IN)]: (_, action) => get(action, 'payload.data.token', initState),
+  [SIGN_OUT]: () => initState,
+  [ActionFailureType(GET_SPORTS)]: () => initState,
 });
 
 export default tokenReducer;
