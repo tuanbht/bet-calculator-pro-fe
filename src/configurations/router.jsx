@@ -4,11 +4,18 @@ import PropTypes from 'prop-types';
 
 import HomePage from 'containers/home-page';
 import NotFound from 'containers/not-found';
-import { ROOT_PATH, NOT_FOUND_PATH, SIGN_IN_PATH, MATCHES_AND_SCORES_PATH } from 'constants/route-paths';
+import {
+  ROOT_PATH,
+  NOT_FOUND_PATH,
+  SIGN_IN_PATH,
+  MATCHES_AND_SCORES_PATH,
+  PRONOSTICS_PATH,
+} from 'constants/route-paths';
 import ContainerLayout from 'components/container-layout';
 import MatchesAndScores from 'containers/matches-and-scores';
 import SignInPage from 'containers/sign-in';
 import { useIsAuthenticated } from 'hooks';
+import Pronostics from 'containers/pronostics';
 
 const ROUTES = [
   {
@@ -20,6 +27,11 @@ const ROUTES = [
     path: MATCHES_AND_SCORES_PATH,
     exact: true,
     container: MatchesAndScores,
+  },
+  {
+    path: PRONOSTICS_PATH,
+    exact: true,
+    container: Pronostics,
   },
 ];
 

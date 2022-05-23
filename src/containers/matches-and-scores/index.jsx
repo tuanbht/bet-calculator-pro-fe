@@ -11,6 +11,7 @@ import styles from './index.module.scss';
 
 import AxiosClient from 'configurations/api-client';
 import authActions from 'actions/auth-actions';
+import { formatDate } from 'utils/datetime';
 
 const MatchesAndScores = () => {
   const dispatch = useDispatch();
@@ -24,8 +25,6 @@ const MatchesAndScores = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const formatDate = (date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
   const callApiGetMatches = (page = 0) => {
     setLoading(true);
     AxiosClient.get('/match_scores', {
@@ -33,7 +32,6 @@ const MatchesAndScores = () => {
         sportId,
         date: formatDate(date),
         page,
-        pageSize: 1000,
       },
       data: null,
     })
@@ -46,6 +44,11 @@ const MatchesAndScores = () => {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch(authActions.signOut());
+        } else {
+          setTotalMatches(0);
+          setTotalPages(0);
+          setMaxScoreIndex(0);
+          setMatches([]);
         }
       })
       .finally(() => {
@@ -99,6 +102,8 @@ const MatchesAndScores = () => {
           <thead>
             <tr>
               <th>Heure</th>
+              {/* FIXME translate to fr */}
+              <th>Country</th>
               <th>Ligue</th>
               <th>Equipe 1</th>
               <th>Equipe 2</th>
@@ -111,6 +116,7 @@ const MatchesAndScores = () => {
             {matches.map((match, matchIdx) => (
               <tr key={matchIdx}>
                 <td>{match.hour}</td>
+                <td>{match.country}</td>
                 <td>{match.league}</td>
                 <td>{match.team1}</td>
                 <td>{match.team2}</td>

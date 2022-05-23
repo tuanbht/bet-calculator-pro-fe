@@ -1,0 +1,15 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.sport_button {
+  &.active {
+    background-color: black;
+  }
+}
+
+.pronostics_index {
+  margin-right: 2rem;
+}
+
+.select_type {
+  width: 280px;
+}

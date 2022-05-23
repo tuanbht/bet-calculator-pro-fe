@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import styles from './index.module.scss';
 
-import { MATCHES_AND_SCORES_PATH, ROOT_PATH } from 'constants/route-paths';
+import { MATCHES_AND_SCORES_PATH, PRONOSTICS_PATH, ROOT_PATH } from 'constants/route-paths';
 import authActions from 'actions/auth-actions';
 import { useIsAuthenticated } from 'hooks';
 
@@ -22,7 +22,7 @@ const Header = () => {
       <Col as={NavLink} to={ROOT_PATH} className={styles.nav_link}>
         Cotes
       </Col>
-      <Col as={NavLink} to={ROOT_PATH} className={styles.nav_link}>
+      <Col as={NavLink} to={PRONOSTICS_PATH} className={styles.nav_link}>
         Pronostics
       </Col>
       <Col as={NavLink} to={MATCHES_AND_SCORES_PATH} className={styles.nav_link}>
