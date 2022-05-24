@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import HomePage from 'containers/home-page';
 import NotFound from 'containers/not-found';
 import {
   ROOT_PATH,
@@ -10,12 +9,19 @@ import {
   SIGN_IN_PATH,
   MATCHES_AND_SCORES_PATH,
   PRONOSTICS_PATH,
+  DISPATCHERS_PATH,
+  ODDS_PATH,
+  ANALYSIS_PATH,
 } from 'constants/route-paths';
 import ContainerLayout from 'components/container-layout';
 import MatchesAndScores from 'containers/matches-and-scores';
 import SignInPage from 'containers/sign-in';
 import { useIsAuthenticated } from 'hooks';
 import Pronostics from 'containers/pronostics';
+import HomePage from 'containers/home';
+import DispatchersPage from 'containers/dispatchers';
+import OddsPage from 'containers/odds';
+import AnalysisPage from 'containers/analysis';
 
 const ROUTES = [
   {
@@ -24,14 +30,29 @@ const ROUTES = [
     container: HomePage,
   },
   {
-    path: MATCHES_AND_SCORES_PATH,
+    path: DISPATCHERS_PATH,
     exact: true,
-    container: MatchesAndScores,
+    container: DispatchersPage,
+  },
+  {
+    path: ODDS_PATH,
+    exact: true,
+    container: OddsPage,
   },
   {
     path: PRONOSTICS_PATH,
     exact: true,
     container: Pronostics,
+  },
+  {
+    path: MATCHES_AND_SCORES_PATH,
+    exact: true,
+    container: MatchesAndScores,
+  },
+  {
+    path: ANALYSIS_PATH,
+    exact: true,
+    container: AnalysisPage,
   },
 ];
 
