@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import startsWith from 'lodash/startsWith';
 import ReactPaginate from 'react-paginate';
 
 import styles from './index.module.scss';
@@ -12,18 +14,22 @@ import AxiosClient from 'configurations/api-client';
 import authActions from 'actions/auth-actions';
 import { formatDate } from 'utils/datetime';
 
+const TAGS = ['Gagnant ou Retour sur Mise', 'Double Chance', 'Index'];
+
 const Pronostics = () => {
   const dispatch = useDispatch();
   const sports = useSelector((state) => state.sports);
 
-  const [sportId, setSportId] = useState();
+  const [sportId, setSportId] = useState(1);
   const [date, setDate] = useState(new Date());
-  const [locationType, setLocationType] = useState(0);
+  const [locationType, setLocationType] = useState(1);
   const [type, setType] = useState(0);
   const [totalPronostics, setTotalPronostics] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pronostics, setPronostics] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [match, setMatch] = useState({});
+  const [showDetails, setShowDetails] = useState(false);
 
   const callApiGetPronostics = (page = 0) => {
     setLoading(true);
@@ -67,6 +73,22 @@ const Pronostics = () => {
 
   const handleChangeType = (event) => setType(event.target.value);
 
+  const handleCloseDetailsModal = () => {
+    setShowDetails(false);
+    setMatch({});
+  };
+
+  const handleShowDetailsModal = (match) => {
+    setShowDetails(true);
+    setMatch(match);
+  };
+
+  const getTitleModal = (match) => (match.winner === 'home' && 'Dom.') || (match.winner === 'away' && 'Ext.');
+
+  const getPronoResult = (match) => (match.winner === 'home' && 1) || (match.winner === 'away' && 2);
+
+  const showOdd = (odd) => (!isEmpty(odd) && !startsWith('0') ? odd : '');
+
   return (
     <div>
       <div>
@@ -75,28 +97,30 @@ const Pronostics = () => {
             <h3 className={classnames(styles.pronostics_index, 'd-inline')}>Pronostics Index</h3>
             <Form.Check
               inline
-              label='International'
-              name='location-type'
-              type='radio'
-              id='location-type-international'
-              checked={locationType === 0}
-              onChange={() => setLocationType(0)}
-            />
-            <Form.Check
-              inline
-              label='French'
+              label='FRANCE'
               name='location-type'
               type='radio'
               id='location-type-french'
               checked={locationType === 1}
               onChange={() => setLocationType(1)}
             />
+            <Form.Check
+              inline
+              label='INTERNATIONAL'
+              name='location-type'
+              type='radio'
+              id='location-type-international'
+              checked={locationType === 0}
+              onChange={() => setLocationType(0)}
+            />
           </Col>
           <Col xs='auto' className={styles.select_type}>
             <Form.Select value={type} onChange={handleChangeType}>
-              <option value={0}>Gagnant ou Retour sur Mise</option>
-              <option value={1}>Double Chance</option>
-              <option value={2}>Index</option>
+              {TAGS.map((tag, idx) => (
+                <option key={idx} value={idx}>
+                  {tag}
+                </option>
+              ))}
             </Form.Select>
           </Col>
         </Row>
@@ -123,7 +147,7 @@ const Pronostics = () => {
             />
           </Col>
           <Col>
-            <Button onClick={handleClickSubmit}>Aide</Button>
+            <Button onClick={handleClickSubmit}>Load</Button>
           </Col>
         </Row>
       </div>
@@ -133,15 +157,14 @@ const Pronostics = () => {
           <span className='visually-hidden'>Loading...</span>
         </Spinner>
       ) : (
-        <Table responsive>
+        <Table responsive className={styles.table_matches}>
           <thead>
             <tr>
               <th>Heure</th>
               {/* FIXME translate to fr */}
               <th>Country</th>
               <th>Ligue</th>
-              <th>Equipe 1</th>
-              <th>Equipe 2</th>
+              <th>Match</th>
               <th>Cote</th>
               <th>Pronostic</th>
               <th>Bookmaker</th>
@@ -154,11 +177,18 @@ const Pronostics = () => {
                 <td>{match.hour}</td>
                 <td>{match.country}</td>
                 <td>{match.league}</td>
-                <td>{match.team1}</td>
-                <td>{match.team2}</td>
+                <td>
+                  {match.team1} - {match.team2}
+                </td>
                 <td>{match.odd}</td>
                 <td>{match.prono}</td>
-                <td>{match.bookmaker}</td>
+                <td
+                  role='gridcell'
+                  className={classnames(match.details && styles.active)}
+                  onClick={() => handleShowDetailsModal(match)}
+                >
+                  {match.bookmaker}
+                </td>
                 <td>{match.category}</td>
               </tr>
             ))}
@@ -184,6 +214,53 @@ const Pronostics = () => {
         containerClassName='pagination'
         activeClassName='active'
       />
+
+      <Modal show={showDetails} onHide={handleCloseDetailsModal} className={styles.details_modal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {TAGS[type]} {getTitleModal(match)}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row className='mb-4'>
+            <Col>
+              {match.team1} - {match.team2}
+            </Col>
+            <Col className='text-right'>
+              {formatDate(date)} {match.hour}
+            </Col>
+          </Row>
+
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>Bookmakers</th>
+                <th>Signes à jouer</th>
+                <th>Cote</th>
+                <th>Taux de distribution mise</th>
+                <th>Nouvelle Cote</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{get(match, 'details.bmk2')}</td>
+                <td>{getPronoResult(match)}</td>
+                <td>{showOdd(get(match, 'details.odd2'))}</td>
+                <td>{get(match, 'details.percent1')}</td>
+                <td rowSpan='2'>
+                  <div className={styles.modal_odd}>{showOdd(match.odd)}</div>
+                </td>
+              </tr>
+              <tr>
+                <td>{get(match, 'details.bmk3')}</td>
+                <td>X</td>
+                <td>{showOdd(get(match, 'details.odd3'))}</td>
+                <td>{get(match, 'details.percent2')}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

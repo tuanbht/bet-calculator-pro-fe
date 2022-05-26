@@ -89,7 +89,7 @@ const MatchesAndScores = () => {
           />
         </Col>
         <Col>
-          <Button onClick={handleClickSubmit}>Aide</Button>
+          <Button onClick={handleClickSubmit}>Load</Button>
         </Col>
       </Row>
       {totalMatches > 0 && <b>Total Matches: {totalMatches}</b>}
@@ -105,8 +105,7 @@ const MatchesAndScores = () => {
               {/* FIXME translate to fr */}
               <th>Country</th>
               <th>Ligue</th>
-              <th>Equipe 1</th>
-              <th>Equipe 2</th>
+              <th>Match</th>
               {times(maxScoreIndex, (index) => (
                 <th key={index}>Score {index}</th>
               ))}
@@ -118,8 +117,7 @@ const MatchesAndScores = () => {
                 <td>{match.hour}</td>
                 <td>{match.country}</td>
                 <td>{match.league}</td>
-                <td>{match.team1}</td>
-                <td>{match.team2}</td>
+                <td>{match.team1} - {match.team2}</td>
                 {times(maxScoreIndex, (index) => (
                   <td key={index}>{get(match.scores, index) || '-'}</td>
                 ))}
