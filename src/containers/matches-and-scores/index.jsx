@@ -12,6 +12,7 @@ import styles from './index.module.scss';
 import AxiosClient from 'configurations/api-client';
 import authActions from 'actions/auth-actions';
 import { formatDate } from 'utils/datetime';
+import { API_GET_MATCH_SCORES } from 'constants/api-paths';
 
 const MatchesAndScores = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const MatchesAndScores = () => {
 
   const callApiGetMatches = (page = 0) => {
     setLoading(true);
-    AxiosClient.get('/match_scores', {
+    AxiosClient.get(API_GET_MATCH_SCORES, {
       params: {
         sportId,
         date: formatDate(date),
@@ -81,7 +82,7 @@ const MatchesAndScores = () => {
           ))}
 
           <DatePicker
-            className={classnames('mb-2 form-control', styles.date_picker)}
+            className={classnames('mt-2 form-control', styles.date_picker)}
             placeholderText='Date'
             selected={date}
             showYearDropdown

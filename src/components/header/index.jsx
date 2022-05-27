@@ -11,6 +11,7 @@ import {
   MATCHES_AND_SCORES_PATH,
   ODDS_PATH,
   PRONOSTICS_PATH,
+  STATISTIC_PRONOSTICS_PATH,
 } from 'constants/route-paths';
 import authActions from 'actions/auth-actions';
 import { useIsAuthenticated } from 'hooks';
@@ -36,6 +37,11 @@ const Header = () => {
       <Col className={styles.nav_link_wrapper}>
         <NavLink to={PRONOSTICS_PATH} className={styles.nav_link}>
           Pronostics
+        </NavLink>
+      </Col>
+      <Col className={styles.nav_link_wrapper}>
+        <NavLink to={STATISTIC_PRONOSTICS_PATH} className={styles.nav_link}>
+        Statistic Pronostics
         </NavLink>
       </Col>
       <Col className={styles.nav_link_wrapper}>

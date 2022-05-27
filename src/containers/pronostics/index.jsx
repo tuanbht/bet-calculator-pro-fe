@@ -13,6 +13,7 @@ import styles from './index.module.scss';
 import AxiosClient from 'configurations/api-client';
 import authActions from 'actions/auth-actions';
 import { formatDate } from 'utils/datetime';
+import { API_GET_PRONOSTICS } from 'constants/api-paths';
 
 const TAGS = ['Gagnant ou Retour sur Mise', 'Double Chance', 'Index'];
 
@@ -33,7 +34,7 @@ const Pronostics = () => {
 
   const callApiGetPronostics = (page = 0) => {
     setLoading(true);
-    AxiosClient.get('/pronostics', {
+    AxiosClient.get(API_GET_PRONOSTICS, {
       params: {
         sportId,
         type,
@@ -71,7 +72,7 @@ const Pronostics = () => {
     callApiGetPronostics(selected);
   };
 
-  const handleChangeType = (event) => setType(event.target.value);
+  const handleChangeType = (event) => setType(parseInt(event.target.value));
 
   const handleCloseDetailsModal = () => {
     setShowDetails(false);
@@ -139,7 +140,7 @@ const Pronostics = () => {
             ))}
 
             <DatePicker
-              className={classnames('mb-2 form-control', styles.date_picker)}
+              className={classnames('mt-2 form-control', styles.date_picker)}
               placeholderText='Date'
               selected={date}
               showYearDropdown
@@ -166,8 +167,8 @@ const Pronostics = () => {
               <th>Ligue</th>
               <th>Match</th>
               <th>Cote</th>
-              <th>Pronostic</th>
-              <th>Bookmaker</th>
+              <th>{type === 2 ? 'Index' : 'Pronostic'}</th>
+              {type !== 2 && <th>Bookmaker</th>}
               <th>Catégorie</th>
             </tr>
           </thead>
@@ -182,13 +183,15 @@ const Pronostics = () => {
                 </td>
                 <td>{match.odd}</td>
                 <td>{match.prono}</td>
-                <td
-                  role='gridcell'
-                  className={classnames(match.details && styles.active)}
-                  onClick={() => handleShowDetailsModal(match)}
-                >
-                  {match.bookmaker}
-                </td>
+                {type !== 2 && (
+                  <td
+                    role='gridcell'
+                    className={classnames(match.details && styles.active)}
+                    onClick={() => handleShowDetailsModal(match)}
+                  >
+                    {match.bookmaker}
+                  </td>
+                )}
                 <td>{match.category}</td>
               </tr>
             ))}

@@ -1,0 +1,22 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.sport_button {
+  &.active {
+    background-color: black;
+  }
+}
+.table {
+  margin-top: 20px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.row_span_2 {
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+}
