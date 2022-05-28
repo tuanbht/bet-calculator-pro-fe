@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Row, NavLink as DirectLink } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import styles from './index.module.scss';
 
 import {
-  ANALYSIS_PATH,
   DISPATCHERS_PATH,
   MATCHES_AND_SCORES_PATH,
   ODDS_PATH,
@@ -41,7 +40,7 @@ const Header = () => {
       </Col>
       <Col className={styles.nav_link_wrapper}>
         <NavLink to={STATISTIC_PRONOSTICS_PATH} className={styles.nav_link}>
-        Statistic Pronostics
+          Statistic Pronostics
         </NavLink>
       </Col>
       <Col className={styles.nav_link_wrapper}>
@@ -50,9 +49,14 @@ const Header = () => {
         </NavLink>
       </Col>
       <Col className={styles.nav_link_wrapper}>
-        <NavLink to={ANALYSIS_PATH} className={styles.nav_link}>
+        <DirectLink href='//footvip.com' className={styles.nav_link}>
           Analyse Confidentielle Foot
-        </NavLink>
+        </DirectLink>
+      </Col>
+      <Col className={styles.nav_link_wrapper}>
+        <DirectLink href='//www.score24.com/ls5/livescore.jsp?partner=expekt3&lang=eng' className={styles.nav_link}>
+          Live Score
+        </DirectLink>
       </Col>
       {isAuthenticated && (
         <Col className={styles.nav_link_wrapper}>

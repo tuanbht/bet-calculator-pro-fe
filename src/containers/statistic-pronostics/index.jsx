@@ -61,8 +61,10 @@ const PronosticStatistics = () => {
 
   const renderTableTotal = () => {
     const totalPronos = total.w + total.d + total.l;
+    const totalWL = total.w + total.l;
     const globalPercent = totalPronos === 0 ? 0 : Number((((total.w + total.d) * 100.0) / totalPronos).toFixed(2));
     const wPercent = totalPronos === 0 ? 0 : Number(((total.w * 100.0) / totalPronos).toFixed(2));
+    const wlPercent = totalWL === 0 ? 0 : Number(((total.w * 100.0) / totalWL).toFixed(2));
     const dPercent = totalPronos === 0 ? 0 : Number(((total.d * 100.0) / totalPronos).toFixed(2));
     const lPercent = totalPronos === 0 ? 0 : Number(((total.l * 100.0) / totalPronos).toFixed(2));
 
@@ -71,7 +73,7 @@ const PronosticStatistics = () => {
         <h3 className={styles.title}>
           <div>Toutes catégories</div>
           <div>
-            Gagnant Hors Remboursés - {total.w} - {wPercent} %
+            Gagnant Hors Remboursés - {total.w} - {wlPercent} %
           </div>
         </h3>
         <Table responsive>
@@ -168,6 +170,14 @@ const PronosticStatistics = () => {
                   </Button>
                 </Col>
               ))}
+              <Col>
+                  <Button
+                    onClick={() => setSportId(null)}
+                    className={classnames(styles.sport_button, sportId === null && styles.active)}
+                  >
+                    Tous
+                  </Button>
+                </Col>
             </Row>
 
             <Row className='mt-4'>
