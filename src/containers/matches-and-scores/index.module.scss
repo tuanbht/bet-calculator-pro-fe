@@ -1,6 +1,8 @@
 @import '~bootstrap/scss/bootstrap-utilities';
 
 .sport_button {
+  margin-bottom: 8px;
+
   &.active {
     background-color: black;
   }

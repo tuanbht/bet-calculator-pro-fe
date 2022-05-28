@@ -128,16 +128,18 @@ const Pronostics = () => {
 
         <Row className='mt-4'>
           <Col>
-            {sports.map((sport) => (
-              <Col
-                key={sport.id}
-                as={Button}
-                onClick={() => setSportId(sport.id)}
-                className={classnames(styles.sport_button, sportId === sport.id && styles.active)}
-              >
-                {sport.name}
-              </Col>
-            ))}
+            <Row>
+              {sports.map((sport) => (
+                <Col key={sport.id}>
+                  <Button
+                    onClick={() => setSportId(sport.id)}
+                    className={classnames(styles.sport_button, sportId === sport.id && styles.active)}
+                  >
+                    {sport.name}
+                  </Button>
+                </Col>
+              ))}
+            </Row>
 
             <DatePicker
               className={classnames('mt-2 form-control', styles.date_picker)}

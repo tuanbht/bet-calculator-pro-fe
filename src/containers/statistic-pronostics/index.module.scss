@@ -1,10 +1,22 @@
 @import '~bootstrap/scss/bootstrap-utilities';
 
+$cat_type_1: #f0f8ff;
+$cat_type_2: #d8bfd8;
+$cat_type_3: #98fb98;
+$cat_type_4: #c7813d;
+
 .sport_button {
+  margin-bottom: 8px;
+
   &.active {
     background-color: black;
   }
 }
+
+.statistic_title {
+  margin-right: 2rem;
+}
+
 .table {
   margin-top: 20px;
 
@@ -19,4 +31,38 @@
   height: 70px;
   justify-content: center;
   align-items: center;
+}
+
+.cat_type_wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .cat_type {
+    display: inline-flex;
+    align-items: center;
+
+    .cat_type_color {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.cat_type_color {
+  &_1 {
+    background-color: $cat_type_1;
+  }
+
+  &_2 {
+    background-color: $cat_type_2;
+  }
+
+  &_3 {
+    background-color: $cat_type_3;
+  }
+
+  &_4 {
+    background-color: $cat_type_4;
+  }
 }

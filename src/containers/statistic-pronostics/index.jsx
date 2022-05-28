@@ -61,10 +61,10 @@ const PronosticStatistics = () => {
 
   const renderTableTotal = () => {
     const totalPronos = total.w + total.d + total.l;
-    const globalPercent = Number((((total.w + total.d) * 100.0) / totalPronos).toFixed(2));
-    const wPercent = Number(((total.w * 100.0) / totalPronos).toFixed(2));
-    const dPercent = Number(((total.d * 100.0) / totalPronos).toFixed(2));
-    const lPercent = Number(((total.l * 100.0) / totalPronos).toFixed(2));
+    const globalPercent = totalPronos === 0 ? 0 : Number((((total.w + total.d) * 100.0) / totalPronos).toFixed(2));
+    const wPercent = totalPronos === 0 ? 0 : Number(((total.w * 100.0) / totalPronos).toFixed(2));
+    const dPercent = totalPronos === 0 ? 0 : Number(((total.d * 100.0) / totalPronos).toFixed(2));
+    const lPercent = totalPronos === 0 ? 0 : Number(((total.l * 100.0) / totalPronos).toFixed(2));
 
     return (
       <div className={styles.table}>
@@ -112,7 +112,7 @@ const PronosticStatistics = () => {
       <div>
         <Row>
           <Col md='12' lg className='my-3'>
-            <h3 className={classnames(styles.pronostics_index, 'd-inline')}>Statistiques Générales</h3>
+            <h3 className={classnames(styles.statistic_title, 'd-inline')}>Statistiques Générales</h3>
             <div className='d-inline-block'>
               <Form.Check
                 inline
@@ -159,13 +159,13 @@ const PronosticStatistics = () => {
           <Col>
             <Row>
               {sports.map((sport) => (
-                <Col
-                  key={sport.id}
-                  as={Button}
-                  onClick={() => setSportId(sport.id)}
-                  className={classnames(styles.sport_button, sportId === sport.id && styles.active)}
-                >
-                  {sport.name}
+                <Col key={sport.id}>
+                  <Button
+                    onClick={() => setSportId(sport.id)}
+                    className={classnames(styles.sport_button, sportId === sport.id && styles.active)}
+                  >
+                    {sport.name}
+                  </Button>
                 </Col>
               ))}
             </Row>
@@ -208,6 +208,24 @@ const PronosticStatistics = () => {
           {total && renderTableTotal()}
           <div className={styles.table}>
             <h3>Réussite par catégorie</h3>
+            <div className={classnames(styles.cat_type_wrapper, 'my-3')}>
+              <div className={styles.cat_type}>
+                <div className={classnames(styles.cat_type_color, styles.cat_type_color_1)} />
+                <span>: Ligue 1, 2, 3, 4</span>
+              </div>
+              <div className={styles.cat_type}>
+                <div className={classnames(styles.cat_type_color, styles.cat_type_color_2)} />
+                <span>: Coupe Internationale</span>
+              </div>
+              <div className={styles.cat_type}>
+                <div className={classnames(styles.cat_type_color, styles.cat_type_color_3)} />
+                <span>: Coupe Nationale</span>
+              </div>
+              <div className={styles.cat_type}>
+                <div className={classnames(styles.cat_type_color, styles.cat_type_color_4)} />
+                <span>: Amicaux</span>
+              </div>
+            </div>
             <Table responsive className={styles.table_matches}>
               <thead>
                 <tr>
@@ -225,7 +243,7 @@ const PronosticStatistics = () => {
                   const globalPercent = Number((((category.w + category.d) * 100.0) / catTotal).toFixed(2));
 
                   return (
-                    <tr key={idx}>
+                    <tr key={idx} className={styles[`cat_type_color_${Math.ceil((idx + 1) / 4)}`]}>
                       <td>Cat. {CATEGORY_NAMES[idx]}</td>
                       <td className='text-center'>{catTotal}</td>
                       <td className='text-center'>{category.w}</td>
