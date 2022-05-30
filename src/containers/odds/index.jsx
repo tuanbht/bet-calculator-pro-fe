@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import get from 'lodash/get';
+import find from 'lodash/find';
 import ReactPaginate from 'react-paginate';
 
 import styles from './index.module.scss';
@@ -12,6 +13,7 @@ import AxiosClient from 'configurations/api-client';
 import authActions from 'actions/auth-actions';
 import { formatDate } from 'utils/datetime';
 import { API_GET_ODDS } from 'constants/api-paths';
+import { getNumberForDisplaying } from 'utils/number';
 
 const OddsPage = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const OddsPage = () => {
   const [hourRange, setHourRange] = useState(0);
   const [totalMatches, setTotalMatches] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [odds, setOdds] = useState([]);
+  const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const callApiGetPronostics = (page = 0) => {
@@ -41,7 +43,7 @@ const OddsPage = () => {
       .then((response) => {
         setTotalMatches(get(response.data, 'pagination.totalElements', 0));
         setTotalPages(get(response.data, 'pagination.totalPages', 0));
-        setOdds(response.data.odds);
+        setContent(response.data.content);
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -49,7 +51,7 @@ const OddsPage = () => {
         } else {
           setTotalMatches(0);
           setTotalPages(0);
-          setOdds([]);
+          setContent([]);
         }
       })
       .finally(() => {
@@ -146,23 +148,79 @@ const OddsPage = () => {
         <Table responsive className={styles.table_matches}>
           <thead>
             <tr>
-              <th>Heure</th>
-              {/* FIXME translate to fr */}
-              <th>Country</th>
-              <th>Ligue</th>
-              <th>Match</th>
+              <th rowSpan='2'>Heure</th>
+              <th rowSpan='2'></th>
+              <th rowSpan='2' colSpan='3'>Cotes moyennes</th>
+              <th rowSpan='2' colSpan='3'>Meilleure cote</th>
+              <th rowSpan='2' colSpan='2'>Buts</th>
+              <th rowSpan='2' colSpan='2'>Handicap Asian</th>
+              <th rowSpan='2' colSpan='2'>Draw No Bet</th>
+              <th rowSpan='2' colSpan='2'>Double Chance</th>
+              <th colSpan='4'>Paris Composés - Risque Modéré - Couvrez 2 signes</th>
+            </tr>
+            <tr>
+              <th colSpan='2'>Avec retour sur mise si résultat X</th>
+              <th colSpan='2'>Double Chance</th>
             </tr>
           </thead>
           <tbody>
-            {odds.map((match, matchIdx) => (
-              <tr key={matchIdx}>
-                <td>{match.hour}</td>
-                <td>{match.country}</td>
-                <td>{match.league}</td>
-                <td>
-                  {match.team1} - {match.team2}
-                </td>
-              </tr>
+            {content.map((group, groupIdx) => (
+              <>
+                <tr key={groupIdx}>
+                  <th></th>
+                  <th>{group.key}</th>
+                  <th>1</th>
+                  <th>x</th>
+                  <th>2</th>
+                  <th>1</th>
+                  <th>x</th>
+                  <th>2</th>
+                  <th>2.5</th>
+                  <th>2.5</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>Dom</th>
+                  <th>Ext</th>
+                  <th>1X</th>
+                  <th>X2</th>
+                  <th>Dom</th>
+                  <th>Ext</th>
+                  <th>1X</th>
+                  <th>X2</th>
+                </tr>
+
+                {group.value.map((match, matchIdx) => {
+                  const overUnder = find(match.data.overunder, (ou) => ou.bet === '2.5');
+                  const handicapAsian = find(match.data.ha, (ha) => ha.bet === '-0.5');
+
+                  return (
+                    <tr key={matchIdx}>
+                      <td>{match.hour}</td>
+                      <td>
+                        {match.team1} - {match.team2}
+                      </td>
+                      <td>{get(match.data, 'forAll.ave1')}</td>
+                      <td>{get(match.data, 'forAll.aveX')}</td>
+                      <td>{get(match.data, 'forAll.ave2')}</td>
+                      <td>{get(match.data, 'forAll.best1')}</td>
+                      <td>{get(match.data, 'forAll.bestX')}</td>
+                      <td>{get(match.data, 'forAll.best2')}</td>
+                      <td>{get(overUnder, 'oddsO')}</td>
+                      <td>{get(overUnder, 'oddsU')}</td>
+                      <td>{get(handicapAsian, 'odds1')}</td>
+                      <td>{get(handicapAsian, 'odds2')}</td>
+                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb1'))}</td>
+                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb2'))}</td>
+                      <td>{get(match.data, 'forAll.dc1X')}</td>
+                      <td>{get(match.data, 'forAll.dcx2')}</td>
+                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown1'))}</td>
+                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown2'))}</td>
+                      <td>{get(match.data, 'forAll.dCown1X')}</td>
+                      <td>{get(match.data, 'forAll.dCown2X')}</td>
+                    </tr>
+                  );
+                })}
+              </>
             ))}
           </tbody>
         </Table>
