@@ -150,12 +150,28 @@ const OddsPage = () => {
             <tr>
               <th rowSpan='2'>Heure</th>
               <th rowSpan='2'></th>
-              <th rowSpan='2' colSpan='3'>Cotes moyennes</th>
-              <th rowSpan='2' colSpan='3'>Meilleure cote</th>
-              <th rowSpan='2' colSpan='2'>Buts</th>
-              <th rowSpan='2' colSpan='2'>Handicap Asian</th>
-              <th rowSpan='2' colSpan='2'>Draw No Bet</th>
-              <th rowSpan='2' colSpan='2'>Double Chance</th>
+              <th rowSpan='2' colSpan='3'>
+                Cotes moyennes
+              </th>
+              <th rowSpan='2' colSpan='3'>
+                Meilleure cote
+              </th>
+              <th rowSpan='2' colSpan='2'>
+                Buts
+              </th>
+              {locationType === 0 && (
+                <>
+                  <th rowSpan='2' colSpan='2'>
+                    Handicap Asian
+                  </th>
+                  <th rowSpan='2' colSpan='2'>
+                    Draw No Bet
+                  </th>
+                  <th rowSpan='2' colSpan='2'>
+                    Double Chance
+                  </th>
+                </>
+              )}
               <th colSpan='4'>Paris Composés - Risque Modéré - Couvrez 2 signes</th>
             </tr>
             <tr>
@@ -177,12 +193,16 @@ const OddsPage = () => {
                   <th>2</th>
                   <th>2.5</th>
                   <th>2.5</th>
-                  <th>1</th>
-                  <th>2</th>
-                  <th>Dom</th>
-                  <th>Ext</th>
-                  <th>1X</th>
-                  <th>X2</th>
+                  {locationType === 0 && (
+                    <>
+                      <th>1</th>
+                      <th>2</th>
+                      <th>Dom</th>
+                      <th>Ext</th>
+                      <th>1X</th>
+                      <th>X2</th>
+                    </>
+                  )}
                   <th>Dom</th>
                   <th>Ext</th>
                   <th>1X</th>
@@ -207,12 +227,16 @@ const OddsPage = () => {
                       <td>{get(match.data, 'forAll.best2')}</td>
                       <td>{get(overUnder, 'oddsO')}</td>
                       <td>{get(overUnder, 'oddsU')}</td>
-                      <td>{get(handicapAsian, 'odds1')}</td>
-                      <td>{get(handicapAsian, 'odds2')}</td>
-                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb1'))}</td>
-                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb2'))}</td>
-                      <td>{get(match.data, 'forAll.dc1X')}</td>
-                      <td>{get(match.data, 'forAll.dcx2')}</td>
+                      {locationType === 0 && (
+                        <>
+                          <td>{get(handicapAsian, 'odds1')}</td>
+                          <td>{get(handicapAsian, 'odds2')}</td>
+                          <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb1'))}</td>
+                          <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb2'))}</td>
+                          <td>{get(match.data, 'forAll.dc1X')}</td>
+                          <td>{get(match.data, 'forAll.dcx2')}</td>
+                        </>
+                      )}
                       <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown1'))}</td>
                       <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown2'))}</td>
                       <td>{get(match.data, 'forAll.dCown1X')}</td>
