@@ -6,4 +6,4 @@ export const PRONOSTICS_PATH = '/pronostics';
 export const STATISTIC_PRONOSTICS_PATH = '/statistic-pronostics';
 export const DISPATCHERS_PATH = '/dispatchers';
 export const ODDS_PATH = '/odds';
-export const ANALYSIS_PATH = '/confidential-football-analysis';
+export const REPORTS_PATH = '/reports';

@@ -1,0 +1,38 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.sport_button {
+  margin-bottom: 8px;
+
+  &.active {
+    background-color: black;
+  }
+}
+
+.pronostics_index {
+  margin-right: 2rem;
+}
+
+.select_type {
+  width: 280px;
+}
+
+.table_matches {
+  .active {
+    text-decoration: underline;
+    color: $primary;
+    cursor: pointer;
+  }
+}
+
+.details_modal {
+  :global(.modal-dialog) {
+    @include media-breakpoint-up(lg) {
+      max-width: 768px;
+    }
+  }
+
+  .modal_odd {
+    text-align: center;
+    padding: 20px;
+  }
+}

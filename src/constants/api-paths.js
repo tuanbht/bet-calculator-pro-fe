@@ -6,3 +6,4 @@ export const API_GET_PRONOSTICS = '/pronostics';
 export const API_GET_STATISTIC_PRONOSTICS = '/stat_pronos';
 export const API_GET_ODDS = '/odds';
 export const API_SIGN_IN = '/sign_in';
+export const API_GET_REPORTS = '/reports';

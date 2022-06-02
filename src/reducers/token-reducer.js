@@ -3,7 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { ActionFailureType, ActionSuccessType, GET_SPORTS, SIGN_IN, SIGN_OUT } from 'constants/redux-actions';
 
-const initState = '';
+const initState = '1234';
 
 const tokenReducer = createReducer(initState, {
   [ActionSuccessType(SIGN_IN)]: (_, action) => get(action, 'payload.data.token', initState),

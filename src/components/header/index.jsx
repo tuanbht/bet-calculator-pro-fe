@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import {
   DISPATCHERS_PATH,
   MATCHES_AND_SCORES_PATH,
+  REPORTS_PATH,
   ODDS_PATH,
   PRONOSTICS_PATH,
   STATISTIC_PRONOSTICS_PATH,
@@ -46,6 +47,11 @@ const Header = () => {
       <Col className={styles.nav_link_wrapper}>
         <NavLink to={MATCHES_AND_SCORES_PATH} className={styles.nav_link}>
           Matches & Scores
+        </NavLink>
+      </Col>
+      <Col className={styles.nav_link_wrapper}>
+        <NavLink to={REPORTS_PATH} className={styles.nav_link}>
+          Rappot Mensuel
         </NavLink>
       </Col>
       <Col className={styles.nav_link_wrapper}>

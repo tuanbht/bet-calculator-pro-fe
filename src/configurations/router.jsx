@@ -11,8 +11,8 @@ import {
   PRONOSTICS_PATH,
   DISPATCHERS_PATH,
   ODDS_PATH,
-  ANALYSIS_PATH,
   STATISTIC_PRONOSTICS_PATH,
+  REPORTS_PATH,
 } from 'constants/route-paths';
 import ContainerLayout from 'components/container-layout';
 import MatchesAndScores from 'containers/matches-and-scores';
@@ -22,8 +22,8 @@ import Pronostics from 'containers/pronostics';
 import HomePage from 'containers/home';
 import DispatchersPage from 'containers/dispatchers';
 import OddsPage from 'containers/odds';
-import AnalysisPage from 'containers/analysis';
 import PronosticStatistics from 'containers/statistic-pronostics';
+import Report from 'containers/report';
 
 const ROUTES = [
   {
@@ -52,14 +52,14 @@ const ROUTES = [
     container: MatchesAndScores,
   },
   {
-    path: ANALYSIS_PATH,
-    exact: true,
-    container: AnalysisPage,
-  },
-  {
     path: STATISTIC_PRONOSTICS_PATH,
     exact: true,
     container: PronosticStatistics,
+  },
+  {
+    path: REPORTS_PATH,
+    exact: true,
+    container: Report,
   },
 ];
 
