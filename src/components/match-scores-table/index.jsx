@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import styles from './index.module.scss';
 
+import { formatDateMonth } from 'utils/datetime';
+
 const MatchScoresTable = ({
   totalMatches,
   loading,
@@ -65,7 +67,7 @@ const MatchScoresTable = ({
             <tbody>
               {matches.map((match, matchIdx) => (
                 <tr key={matchIdx}>
-                  {forReport && <td>{match.date}</td>}
+                  {forReport && <td>{formatDateMonth(match.date)}</td>}
                   <td>{match.hour}</td>
                   <td>{match.country}</td>
                   <td>{match.league}</td>
