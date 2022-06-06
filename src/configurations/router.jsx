@@ -9,7 +9,7 @@ import {
   SIGN_IN_PATH,
   MATCHES_AND_SCORES_PATH,
   PRONOSTICS_PATH,
-  DISPATCHERS_PATH,
+  MENU_CALCULATOR_PATH,
   ODDS_PATH,
   STATISTIC_PRONOSTICS_PATH,
   REPORTS_PATH,
@@ -20,7 +20,7 @@ import SignInPage from 'containers/sign-in';
 import { useIsAuthenticated } from 'hooks';
 import Pronostics from 'containers/pronostics';
 import HomePage from 'containers/home';
-import DispatchersPage from 'containers/dispatchers';
+import DispatchersPage from 'containers/menu-calculator';
 import OddsPage from 'containers/odds';
 import PronosticStatistics from 'containers/statistic-pronostics';
 import Report from 'containers/report';
@@ -32,7 +32,7 @@ const ROUTES = [
     container: HomePage,
   },
   {
-    path: DISPATCHERS_PATH,
+    path: MENU_CALCULATOR_PATH,
     exact: true,
     container: DispatchersPage,
   },

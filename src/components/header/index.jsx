@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import styles from './index.module.scss';
 
 import {
-  DISPATCHERS_PATH,
+  MENU_CALCULATOR_PATH,
   MATCHES_AND_SCORES_PATH,
   REPORTS_PATH,
   ODDS_PATH,
@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <Row as={'header'} className={styles.container}>
       <Col className={styles.nav_link_wrapper}>
-        <NavLink to={DISPATCHERS_PATH} className={styles.nav_link}>
+        <NavLink to={MENU_CALCULATOR_PATH} className={styles.nav_link}>
           Répartiteurs
         </NavLink>
       </Col>
