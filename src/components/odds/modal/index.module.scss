@@ -1,0 +1,7 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.odd_modal {
+  :global(.modal-dialog) {
+    max-width: 720px;
+  }
+}

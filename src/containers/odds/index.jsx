@@ -14,9 +14,13 @@ import authActions from 'actions/auth-actions';
 import { formatDate } from 'utils/datetime';
 import { API_GET_ODDS } from 'constants/api-paths';
 import { getNumberForDisplaying } from 'utils/number';
+import { useOddModal } from 'components/odds/modal';
+import { ODD_MODAL_TABS } from 'constants/odd-modal';
 
 const OddsPage = () => {
   const dispatch = useDispatch();
+  const { component: OddModal, openModal } = useOddModal();
+
   const sports = useSelector((state) => state.sports);
 
   const [sportId, setSportId] = useState(1);
@@ -27,6 +31,7 @@ const OddsPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [persistedFilter, setPersistedFilter] = useState({});
 
   const callApiGetPronostics = (page = 0) => {
     setLoading(true);
@@ -56,6 +61,10 @@ const OddsPage = () => {
       })
       .finally(() => {
         setLoading(false);
+        setPersistedFilter({
+          locationType,
+          sportId,
+        });
       });
   };
 
@@ -159,7 +168,7 @@ const OddsPage = () => {
               <th rowSpan='2' colSpan='2'>
                 Buts
               </th>
-              {locationType === 0 && (
+              {persistedFilter.locationType === 0 && (
                 <>
                   <th rowSpan='2' colSpan='2'>
                     Handicap Asian
@@ -180,9 +189,10 @@ const OddsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {content.map((group, groupIdx) => (
+            {content.map((group) => (
               <>
-                <tr key={groupIdx}>
+                {/* FIXME sortable */}
+                <tr>
                   <th></th>
                   <th>{group.key}</th>
                   <th>1</th>
@@ -191,9 +201,9 @@ const OddsPage = () => {
                   <th>1</th>
                   <th>x</th>
                   <th>2</th>
-                  <th>2.5</th>
-                  <th>2.5</th>
-                  {locationType === 0 && (
+                  <th>{persistedFilter.sportId === 1 && 2.5}</th>
+                  <th>{persistedFilter.sportId === 1 && 2.5}</th>
+                  {persistedFilter.locationType === 0 && (
                     <>
                       <th>1</th>
                       <th>2</th>
@@ -210,8 +220,12 @@ const OddsPage = () => {
                 </tr>
 
                 {group.value.map((match, matchIdx) => {
-                  const overUnder = find(match.data.overunder, (ou) => ou.bet === '2.5');
-                  const handicapAsian = find(match.data.ha, (ha) => ha.bet === '-0.5');
+                  let overUnder = match.data.overunder[0];
+                  let handicapAsian = match.data.ha[0];
+                  if (persistedFilter.sportId === 1) {
+                    overUnder = find(match.data.overunder, (ou) => ou.bet === '2.5');
+                    handicapAsian = find(match.data.ha, (ha) => ha.bet === '-0.5');
+                  }
 
                   return (
                     <tr key={matchIdx}>
@@ -222,19 +236,41 @@ const OddsPage = () => {
                       <td>{get(match.data, 'forAll.ave1')}</td>
                       <td>{get(match.data, 'forAll.aveX')}</td>
                       <td>{get(match.data, 'forAll.ave2')}</td>
-                      <td>{get(match.data, 'forAll.best1')}</td>
-                      <td>{get(match.data, 'forAll.bestX')}</td>
-                      <td>{get(match.data, 'forAll.best2')}</td>
-                      <td>{get(overUnder, 'oddsO')}</td>
-                      <td>{get(overUnder, 'oddsU')}</td>
-                      {locationType === 0 && (
+                      <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.BEST)}>
+                        {get(match.data, 'forAll.best1')}
+                      </td>
+                      <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.BEST)}>
+                        {get(match.data, 'forAll.bestX')}
+                      </td>
+                      <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.BEST)}>
+                        {get(match.data, 'forAll.best2')}
+                      </td>
+                      <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.OVER_UNDER)}>
+                        {get(overUnder, 'oddsO')}
+                      </td>
+                      <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.OVER_UNDER)}>
+                        {get(overUnder, 'oddsU')}
+                      </td>
+                      {persistedFilter.locationType === 0 && (
                         <>
-                          <td>{get(handicapAsian, 'odds1')}</td>
-                          <td>{get(handicapAsian, 'odds2')}</td>
-                          <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb1'))}</td>
-                          <td>{getNumberForDisplaying(get(match.data, 'forAll.dnb2'))}</td>
-                          <td>{get(match.data, 'forAll.dc1X')}</td>
-                          <td>{get(match.data, 'forAll.dcx2')}</td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.HANDICAP_ASIAN)}>
+                            {get(handicapAsian, 'odds1')}
+                          </td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.HANDICAP_ASIAN)}>
+                            {get(handicapAsian, 'odds2')}
+                          </td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.DRAW_NO_BET)}>
+                            {getNumberForDisplaying(get(match.data, 'forAll.dnb1'))}
+                          </td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.DRAW_NO_BET)}>
+                            {getNumberForDisplaying(get(match.data, 'forAll.dnb2'))}
+                          </td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.DOUBLE_CHANCE)}>
+                            {get(match.data, 'forAll.dc1X')}
+                          </td>
+                          <td role='gridcell' onClick={() => openModal(match, ODD_MODAL_TABS.DOUBLE_CHANCE)}>
+                            {get(match.data, 'forAll.dcx2')}
+                          </td>
                         </>
                       )}
                       <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown1'))}</td>
@@ -268,6 +304,8 @@ const OddsPage = () => {
         containerClassName='pagination'
         activeClassName='active'
       />
+
+      <OddModal date={date} locationType={persistedFilter.locationType} />
     </div>
   );
 };
