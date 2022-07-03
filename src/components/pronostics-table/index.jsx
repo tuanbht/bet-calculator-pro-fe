@@ -50,7 +50,7 @@ const PronosticsTable = ({
   const showOdd = (odd) => (!isEmpty(odd) && !startsWith('0') ? odd : '');
 
   return (
-    <div>
+    <div className='mt-4'>
       {totalPronostics > 0 && <b>Total Pronostics: {totalPronostics}</b>}
       {loading ? (
         <Spinner animation='border' role='status'>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import get from 'lodash/get';
+import { Link } from 'react-router-dom';
 
 import styles from './index.module.scss';
 
@@ -13,6 +14,8 @@ import { formatDate } from 'utils/datetime';
 import { API_GET_PRONOSTICS } from 'constants/api-paths';
 import { TAGS } from 'constants/pronostics';
 import PronosticsTable from 'components/pronostics-table';
+import { ReactComponent as PieChart } from 'assets/pie-chart.svg';
+import { STATISTIC_PRONOSTICS_PATH } from 'constants/route-paths';
 
 const Pronostics = () => {
   const dispatch = useDispatch();
@@ -142,8 +145,11 @@ const Pronostics = () => {
               onChange={setDate}
             />
           </Col>
-          <Col>
+          <Col xs={4} className={styles.action_wrapper}>
             <Button onClick={handleClickSubmit}>Load</Button>
+            <Link to={STATISTIC_PRONOSTICS_PATH}>
+              <PieChart className={styles.pie_chart} title='Statistiques Générales' />
+            </Link>
           </Col>
         </Row>
       </div>

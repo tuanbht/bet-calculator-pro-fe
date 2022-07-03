@@ -36,3 +36,13 @@
     padding: 20px;
   }
 }
+
+.action_wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .pie_chart {
+    width: 50px;
+  }
+}

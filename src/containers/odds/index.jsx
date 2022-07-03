@@ -15,11 +15,13 @@ import { formatDate } from 'utils/datetime';
 import { API_GET_ODDS } from 'constants/api-paths';
 import { getNumberForDisplaying } from 'utils/number';
 import { useOddModal } from 'components/odds/modal';
-import { ODD_MODAL_TABS } from 'constants/odd-modal';
+import { CONVERTER_TYPE, ODD_MODAL_TABS } from 'constants/odd-modal';
+import { useConverterModal } from 'components/odds/converter-modal';
 
 const OddsPage = () => {
   const dispatch = useDispatch();
   const { component: OddModal, openModal } = useOddModal();
+  const { component: ConverterModal, openModal: openConverterModal } = useConverterModal();
 
   const sports = useSelector((state) => state.sports);
 
@@ -191,7 +193,6 @@ const OddsPage = () => {
           <tbody>
             {content.map((group) => (
               <>
-                {/* FIXME sortable */}
                 <tr>
                   <th></th>
                   <th>{group.key}</th>
@@ -273,10 +274,18 @@ const OddsPage = () => {
                           </td>
                         </>
                       )}
-                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown1'))}</td>
-                      <td>{getNumberForDisplaying(get(match.data, 'forAll.dnBown2'))}</td>
-                      <td>{get(match.data, 'forAll.dCown1X')}</td>
-                      <td>{get(match.data, 'forAll.dCown2X')}</td>
+                      <td role='gridcell' onClick={() => openConverterModal(CONVERTER_TYPE.DRAW_NO_BET, match)}>
+                        {getNumberForDisplaying(get(match.data, 'forAll.dnBown1'))}
+                      </td>
+                      <td role='gridcell' onClick={() => openConverterModal(CONVERTER_TYPE.DRAW_NO_BET, match)}>
+                        {getNumberForDisplaying(get(match.data, 'forAll.dnBown2'))}
+                      </td>
+                      <td role='gridcell' onClick={() => openConverterModal(CONVERTER_TYPE.DOUBLE_CHANCE, match)}>
+                        {get(match.data, 'forAll.dCown1X')}
+                      </td>
+                      <td role='gridcell' onClick={() => openConverterModal(CONVERTER_TYPE.DOUBLE_CHANCE, match)}>
+                        {get(match.data, 'forAll.dCown2X')}
+                      </td>
                     </tr>
                   );
                 })}
@@ -306,6 +315,7 @@ const OddsPage = () => {
       />
 
       <OddModal date={date} locationType={persistedFilter.locationType} />
+      <ConverterModal date={date} />
     </div>
   );
 };
