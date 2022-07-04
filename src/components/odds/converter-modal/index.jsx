@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 import { formatDate } from 'utils/datetime';
 import { calculateDistributor, calculateDoubleChance } from 'utils/calculator';
 import { CONVERTER_TYPE } from 'constants/odd-modal';
-import { MENU_CALCULATOR_PATH } from 'constants/route-paths';
+import { buildCalculatorPath } from 'constants/route-paths';
 
 export const useConverterModal = () => {
   const [show, setShow] = useState();
@@ -32,8 +32,8 @@ export const useConverterModal = () => {
     const best2 = get(match, `data.forAll.best${value2}`);
     const calculator =
       type === CONVERTER_TYPE.DRAW_NO_BET
-        ? calculateDistributor(10, best1, best2, 0)
-        : calculateDoubleChance(10, best1, best2, 0);
+        ? calculateDistributor(10, best1, best2)
+        : calculateDoubleChance(10, best1, best2);
     const title =
       type === CONVERTER_TYPE.DRAW_NO_BET
         ? `${value1} - Gagnant, ${value2} - Retour mise totale`
@@ -155,9 +155,9 @@ export const useConverterModal = () => {
           annexe. La nouvelle cote résultera obligatoirement des cotes 1X2 de votre bookmaker. Pour composer votre pari
           veuillez utiliser le répartiteur :&nbsp;
           {type === CONVERTER_TYPE.DRAW_NO_BET ? (
-            <Link to={MENU_CALCULATOR_PATH}>100% Gagnant ou Remboursé</Link>
+            <Link to={buildCalculatorPath(0)}>100% Gagnant ou Remboursé</Link>
           ) : (
-            <Link to={MENU_CALCULATOR_PATH}>Double Chance</Link>
+            <Link to={buildCalculatorPath(1)}>Double Chance</Link>
           )}
         </p>
 

@@ -1,0 +1,21 @@
+@import '~bootstrap/scss/bootstrap-utilities';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.form_container {
+  max-width: 760px;
+
+  .form_group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .form_result {
+    font-weight: bold;
+  }
+}
