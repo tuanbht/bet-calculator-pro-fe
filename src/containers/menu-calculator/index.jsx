@@ -9,7 +9,7 @@ import { buildCalculatorPath } from 'constants/route-paths';
 
 const MenuCalculator = () => (
   <div className={styles.container}>
-    <h1 className={styles.header}>Répartiteurs && Couvertures</h1>
+    <h1 className={styles.header}>Répartiteurs & Couvertures</h1>
 
     <Row className={styles.menu_section}>
       <Col className={styles.menu_title}>
@@ -78,7 +78,7 @@ const MenuCalculator = () => (
       </Col>
       <Col>
         <Link to={buildCalculatorPath(8)} className={classNames('btn btn-outline-dark', styles.item)}>
-          <span>Calcul probabilité && Valuebet</span>
+          <span>Calcul probabilité & Valuebet</span>
           <span>(2, 3 signes)</span>
         </Link>
         <Link to={buildCalculatorPath(9)} className={classNames('btn btn-outline-dark', styles.item)}>

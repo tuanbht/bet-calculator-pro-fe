@@ -473,3 +473,20 @@ export const calculateMiniRisk2 = (mise, coteA, coteB, coteC, valeurTest) => {
   calculator.miniRisk2();
   return calculator;
 };
+
+export const calculateValuebet = (coteA, coteB, coteC, estimationCoteA, estimationCoteB, estimationCoteC) => {
+  const calculator = new Calculator(0, coteA, coteB, coteC);
+  calculator.valueBet(estimationCoteA, estimationCoteB, estimationCoteC);
+  return calculator;
+};
+
+export const calculateCommissionBookmaker3Signals = (coteA, coteB, coteC) => {
+  const calculator = new Calculator(0, coteA, coteB, coteC);
+  calculator.commissionBookmaker3Signals();
+  return calculator;
+};
+export const calculateCommissionBookmaker2Signals = (coteA, coteB) => {
+  const calculator = new Calculator(0, coteA, coteB, 0);
+  calculator.commissionBookmaker2Signals();
+  return calculator;
+};

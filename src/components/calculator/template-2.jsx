@@ -48,8 +48,6 @@ export default function Tempalate2() {
     setCalculation(calculateFunc(valueBet, valueRatingA, valueRatingB, valueRatingC));
   };
 
-  console.log(calculation);
-
   return (
     <div>
       <div className={styles.header}>

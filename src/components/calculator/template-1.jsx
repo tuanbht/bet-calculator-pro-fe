@@ -25,8 +25,6 @@ export default function Tempalate1() {
     setCalculation(calculateDoubleChance(valueBet, valueRatingA, valueRatingB, 0));
   };
 
-  console.log(calculation);
-
   return (
     <div>
       <div className={styles.header}>
